@@ -20,7 +20,7 @@ int ctoi(const char c) {
     else return 'n';
 }
 
-vector<int> toVector(string your_num) {
+vector<int> to_vector(string your_num) {
     if (your_num.length() == 0) {
         return vector<int>(0);
     }
@@ -95,8 +95,8 @@ void do_multiply() {
     cout << "\nEnter second num:";
     cin >> sn;
     cout << "\n";
-    fnum = toVector(fn);
-    snum = toVector(sn);
+    fnum = to_vector(fn);
+    snum = to_vector(sn);
     cout << "\nResult:";
     result = sum(fnum, snum);
     reverse(result.begin(), result.end());
