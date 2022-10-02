@@ -1,20 +1,12 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
-string first_num, second_num;
-
-void get_nums() {
-    cout << "Enter first num:";
-    cin >> first_num;
-    cout << "Enter second num:";
-    cin >> second_num;
-    cout << "A: " << first_num << " x " << second_num << "\n";
-}
-
-short int ctoi(const char c) {
+int ctoi(const char c) {
     if (c == '0') return 0;
     else if (c == '1') return 1;
     else if (c == '2') return 2;
@@ -25,33 +17,93 @@ short int ctoi(const char c) {
     else if (c == '7') return 7;
     else if (c == '8') return 8;
     else if (c == '9') return 9;
-    else return NULL;
+    else return 'n';
 }
 
-vector<short int> toVector(string your_num) {
+vector<int> toVector(string your_num) {
     if (your_num.length() == 0) {
-        return vector<short int>(0);
+        return vector<int>(0);
     }
     string::iterator its;
-    vector<short int> toReturn;
+    vector<int> toReturn;
     for (its = your_num.begin(); its != your_num.end(); ++its) {
-        short int b = ctoi(*its);
+        int b = ctoi(*its);
         toReturn.push_back(b);
     }
+    return toReturn;
 }
 
-vector<short int> multiply(vector<short int> fnum, vector<short int> snum) {
-    if (fnum.size() == 0 || snum.size() == 0) {
-        return vector<short int>(0);
+int get_cnt_digit(const int n) {
+    if (!n) {
+        return 1;
     }
-    reverse(fnum.begin(), fnum.end());
-    vector<short int> result(fnum.size() * snum.size());
-    vector<short int>::iterator itf, its;
-    for (itf = fnum.begin(); itf != fnum.end(); ++itf) {
-        // TODO MULTIPLY
-    }
+    ostringstream ost;
+    ost << n;
+    return ost.str().length();
+}
+
+int get_last_num(const int n) {
+    int x = n % 10;
+    return x;
+}
+
+void show(int a) {
+    cout << a;
+}
+
+vector<int> sum(vector<int> fn, vector<int> sn) {
+     vector<int> result;
+     size_t n = fn.size() > sn.size() ? fn.size() + 1 : sn.size() + 1;
+     if (fn.size() > sn.size()) {
+         while (fn.size() != sn.size()) {
+             sn.insert(sn.begin(), 0);
+         }
+     }
+     else {
+         while (sn.size() != fn.size()) {
+             fn.insert(fn.begin(), 0);
+         }
+     }
+     int temp = 0;
+     for (int i = n - 1; i >= 0; --i) {
+         if (get_cnt_digit(fn[i] + sn[i] + temp) == 1) {
+             result.push_back(fn[i] + sn[i] + temp);
+             temp = 0;
+         }
+         else if (get_cnt_digit(fn[i] + sn[i] + temp) == 2) {
+             result.push_back(get_last_num(fn[i] + sn[i] + temp));
+             temp = (fn[i] + sn[i] / 10);
+         }
+     }
+     if (sn.size() == fn.size() == 1 && sn[0] + fn[0] >= 10) {
+         result.push_back(1);
+     }
+     return result;
+}
+
+vector<int> multiply_on_single_num(vector<int> big_num, int num) {
+    vector<int> result;
+    return result;
+}
+
+void do_multiply() {
+    string fn, sn;
+    vector<int> fnum, snum, result;
+    vector<vector<int>> tempSums;
+    cout << "Enter first num:";
+    cin >> fn;
+    cout << "\nEnter second num:";
+    cin >> sn;
+    cout << "\n";
+    fnum = toVector(fn);
+    snum = toVector(sn);
+    cout << "\nResult:";
+    result = sum(fnum, snum);
+    reverse(result.begin(), result.end());
+    for_each(result.begin(), result.end(), show);
 }
 
 int main() {
+    do_multiply();
     return 0;
 }
