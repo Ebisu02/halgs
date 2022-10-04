@@ -81,8 +81,40 @@ vector<int> sum(vector<int> fn, vector<int> sn) {
      return result;
 }
 
-vector<int> multiply_on_single_num(vector<int> big_num, int num) {
+vector<int> multiply_on_single_num(vector<int> big_num, int num, int queue) {
     vector<int> result;
+    int incnt = 0;
+    for (int i = big_num.size() - 1; i >= 0; --i) {
+        int x = big_num[i] * num;
+        int toPush;
+        if (incnt == 0) {
+            toPush = x % 10;
+            incnt = x / 10;
+        }
+        else {
+            toPush = (x + incnt) % 10;
+            incnt = (x + incnt) / 10;
+        }
+        result.push_back(toPush);
+    }
+    if (incnt != 0) {
+        result.push_back(incnt);
+    }
+    reverse(result.begin(), result.end());
+    for (int i = 0; i < queue; ++i) {
+        result.push_back(0);
+    }
+    return result;
+}
+
+vector<int> multiply(vector<int> fnum, vector<int> snum) {
+    vector<int> result = multiply_on_single_num(fnum, snum[snum.size() - 1], 0);
+    if (snum.size() == 1) return result;
+    for (int i = snum.size() - 2, queue = 1; i >= 0; --i, ++queue) {
+        vector<int> temp = multiply_on_single_num(fnum, snum[i], queue);
+        result = sum(result, temp);
+        reverse(result.begin(), result.end());
+    }
     return result;
 }
 
@@ -98,8 +130,7 @@ void do_multiply() {
     fnum = to_vector(fn);
     snum = to_vector(sn);
     cout << "\nResult:";
-    result = sum(fnum, snum);
-    reverse(result.begin(), result.end());
+    result = multiply(fnum, snum);
     for_each(result.begin(), result.end(), show);
 }
 
