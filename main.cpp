@@ -4,121 +4,138 @@
 #include "multiply/multiply.h"
 #include "sorts/sorts.h"
 
-class ComplexNum {
+#define pi 3.1415926
+
+class ComplexNumber {
+
 private:
-    long double ImagePart = 0;
-    long double RealPart = 0;
+    long double Real;
+    long double Image;
+
 public:
-    ComplexNum(long double real, long double img) {
-        this->ImagePart = img;
-        this->RealPart = real;
+    ComplexNumber(long double RealPart, long double ImagePart) {
+        this->Real = RealPart;
+        this->Image = ImagePart;
     }
 
-    string get_as_string() {
-        return (to_string(RealPart) + " " + to_string(ImagePart) + "i");
+    void print() {
+        if (this->get_image() > 0) {
+            cout << this->get_real() << " + " << this->get_image() << "i ";
+        }
+        else if (this->get_image() < 0) {
+            cout << this->get_real() << " " << this->get_image() << "i ";
+        }
+        else {
+            cout << this->get_real() << " ";
+        }
+    }
+
+    long double get_real() {
+        return this->Real;
     }
 
     long double get_image() {
-        return this->ImagePart;
-    }
-    long double get_real() {
-        return this->RealPart;
+        return this->Image;
     }
 
-    static ComplexNum add(ComplexNum c1, ComplexNum c2) {
-        return ComplexNum(c1.get_real() + c2.get_real(), c1.get_image() + c2.get_image());
+    ComplexNumber operator + (ComplexNumber other) {
+        return ComplexNumber(this->get_real() + other.get_real(), this->get_image() + other.get_image());
     }
 
-    static ComplexNum dif(ComplexNum c1, ComplexNum c2) {
-        return ComplexNum(c1.get_real() - c2.get_real(), c1.get_image() - c2.get_image());
+    ComplexNumber operator - (ComplexNumber other) {
+        return ComplexNumber(this->get_real() - other.get_real(), this->get_image() - other.get_image());
     }
 
-    static ComplexNum multiply(ComplexNum c1, ComplexNum c2) {
-        long double new_real = c1.get_real() * c2.get_real() - c1.get_image() * c2.get_image();
-        long double new_image = c1.get_real() * c2.get_image() + c1.get_image() * c2.get_real();
-        return ComplexNum(new_real, new_image);
+    ComplexNumber operator * (ComplexNumber other) {
+        long double new_real = this->get_real() * other.get_real() - this->get_image() * other.get_image();
+        long double new_image = this->get_real() * other.get_image() + this->get_image() * other.get_real();
+        return ComplexNumber(new_real, new_image);
     }
 
-    static ComplexNum div(ComplexNum c1, ComplexNum c2) {
-        long double new_real = (c1.get_real() * c2.get_real() + c1.get_image() * c2.get_image()) /
-                (pow(c2.get_real(), 2) + pow(c2.get_image(), 2));
-        long double new_image = c1.get_image() * c2.get_real() - c1.get_real() * c2.get_image() /
-                (pow(c2.get_real(), 2) + pow(c2.get_image(), 2));
-        return ComplexNum(new_real, new_image);
+    ComplexNumber operator / (ComplexNumber other) {
+        long double new_real = (long double)(this->get_real() * other.get_real() + this->get_image() * other.get_image()) / (pow(other.get_real(), 2) + pow(other.get_image(), 2));
+        long double new_image = (long double)(this->get_image() * other.get_real() - this->get_real() * other.get_image()) / (pow(other.get_real(), 2) + pow(other.get_image(), 2));
+        return ComplexNumber(new_real, new_image);
+    }
+
+    void Round(long int n) {
+        this->Real = (round(Real * 1000)) / 1000;
+        this->Image = (round(Image * 1000)) / 1000;
     }
 };
 
-int operations = 0;
+long int operations;
 
-#define pi 3.1415926
-
-vector<ComplexNum> direct_dpf(vector<ComplexNum> init) {
-    vector<ComplexNum> result;
+vector<ComplexNumber> direct(vector<ComplexNumber> arr) {
     operations = 0;
-    for (int i = 0; i < init.size(); ++i) {
-        result.push_back(ComplexNum(0.0, 0.0));
+    vector<ComplexNumber> result_arr;
+    for (size_t i = 0; i < arr.size(); ++i) {
+        result_arr.push_back(ComplexNumber(0.0, 0.0));
     }
-    for (int i = 0; i < init.size(); ++i) {
-        for (int j = 0; j < init.size(); ++j) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        for (size_t n = 0; n < arr.size(); ++n) {
             operations += 5;
-            ComplexNum temp = ComplexNum(cos((2 * pi * i * j) / init.size()), -1 * sin((2 * pi * i * j) / init.size()));
-            result[i] = ComplexNum::add(result[i], ComplexNum::multiply(init[j], temp));
+            ComplexNumber temp = ComplexNumber(cos((2 * pi * i * n) / arr.size()),
+                                               -1 * sin((2 * pi * i * n) / arr.size()));
+            result_arr[i] = result_arr[i] + (arr[n] * temp);
         }
+        result_arr[i].Round(3);
     }
-    return result;
+    return result_arr;
 }
 
-vector<ComplexNum> inverse_dpf(vector<ComplexNum> init) {
-    vector<ComplexNum> result;
+vector<ComplexNumber> inverse(vector<ComplexNumber> arr) {
     operations = 0;
-    for (int i = 0; i < init.size(); ++i) {
-        result.push_back(ComplexNum(0.0, 0.0));
+    vector<ComplexNumber> result_arr;
+    for (size_t i = 0; i < arr.size(); ++i) {
+        result_arr.push_back(ComplexNumber(0.0, 0.0));
     }
-    for (int i = 0; i < init.size(); ++i) {
-        for (int j = 0; j < init.size(); ++j) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        for (size_t n = 0; n < arr.size(); ++n) {
             operations += 5;
-            ComplexNum temp = ComplexNum(cos((2 * pi * i * j) / init.size()), sin((2 * pi * i * j) / init.size()));
-            result[i] = ComplexNum::add(result[i], ComplexNum::multiply(init[j], temp));
+            ComplexNumber temp = ComplexNumber(cos((2 * pi * i * n) / arr.size()), sin((2 * pi * i * n) / arr.size()));
+            result_arr[i] = result_arr[i] + (arr[n] * temp);
         }
-        result[i] = ComplexNum::div(result[i], ComplexNum(init.size(), 0));
+        result_arr[i] = result_arr[i] / ComplexNumber(arr.size(), 0);
+        result_arr[i].Round(3);
     }
-    return result;
+    return result_arr;
 }
 
-bool dpf_test() {
-    vector<ComplexNum> array_init;
-    array_init.push_back(ComplexNum(1, 0));
-    array_init.push_back(ComplexNum(2, -1));
-    array_init.push_back(ComplexNum(0, -1));
-    array_init.push_back(ComplexNum(-1, -2));
-    cout << "\nArray:\n";
-    for (vector<ComplexNum>::iterator it = array_init.begin(); it != array_init.end(); ++it) {
-        cout << (*it).get_as_string() << "\n";
+void test() {
+    vector<ComplexNumber> t;
+    t.push_back(ComplexNumber(1, 0));
+    t.push_back(ComplexNumber(2, -1));
+    t.push_back(ComplexNumber(0, -1));
+    t.push_back(ComplexNumber(-1, 2));
+
+    cout << "Array: \n";
+    for (auto& i: t) {
+        i.print();
+        cout << "\n";
     }
-    // Testing direct DPF algo
-    vector<ComplexNum> array_direct_dpf = direct_dpf(array_init);
-    cout << "\nArray after direct DPF:\n";
-    for (vector<ComplexNum>::iterator it = array_direct_dpf.begin(); it != array_direct_dpf.end(); ++it) {
-        cout << (*it).get_as_string() << "\n";
+
+    vector<ComplexNumber> dir;
+    dir = direct(t);
+
+    cout << "Array after direct: \n";
+    for (auto& i: dir) {
+        i.print();
+        cout << "\n";
     }
-    cout << "\nAmount of operations: " << operations << "\n";
-    // Testing inverse DPF algo
-    vector<ComplexNum> array_inverse_dpf = inverse_dpf(array_direct_dpf);
-    cout << "\nArray after inverse DPF:\n";
-    for (vector<ComplexNum>::iterator it = array_inverse_dpf.begin(); it != array_inverse_dpf.end(); ++it) {
-        cout << (*it).get_as_string() << "\n";
+    cout << "Operations: " << operations << "\n";
+
+    vector<ComplexNumber> inv;
+    inv = inverse(dir);
+    cout << "Array after inverse: \n";
+    for (auto& i: inv) {
+        i.print();
+        cout << "\n";
     }
-    cout << "\nAmount of operations: " << operations << "\n";
-    for (vector<ComplexNum>::iterator it_init = array_init.begin(), it_inv = array_inverse_dpf.begin();
-        it_init != array_init.end(), it_inv != array_inverse_dpf.end(); ++it_inv, ++it_init) {
-        if ((*it_inv).get_as_string() != (*it_init).get_as_string()) {
-            return false;
-        }
-    }
-    return true;
+    cout << "Operations: " << operations << "\n";
 }
 
 int main() {
-    dpf_test();
+    test();
     return 0;
 }
