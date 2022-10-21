@@ -17,8 +17,13 @@ vector<ComplexNumber> direct_dpf(vector<ComplexNumber> arr) {
             operations += 5;
             ComplexNumber temp = ComplexNumber(cos((2 * pi * i * n) / arr.size()),
                                                -1 * sin((2 * pi * i * n) / arr.size()));
+            cout << "\n\nTemp = ";
+            temp.print();
+            cout << "\n\nRes = ";
             result_arr[i] = result_arr[i] + (arr[n] * temp);
+            result_arr[i].print();
         }
+        cout <<"\n\nNExt:\n\n";
         result_arr[i].Round(3);
     }
     return result_arr;
@@ -45,9 +50,10 @@ vector<ComplexNumber> inverse_dpf(vector<ComplexNumber> arr) {
 void start_test_dpf() {
     vector<ComplexNumber> t;
     t.push_back(ComplexNumber(1, 0));
-    t.push_back(ComplexNumber(2, -1));
-    t.push_back(ComplexNumber(0, -1));
-    t.push_back(ComplexNumber(-1, 2));
+    t.push_back(ComplexNumber(0, 0));
+    t.push_back(ComplexNumber(2, 0));
+    t.push_back(ComplexNumber(0, 0));
+    t.push_back(ComplexNumber(3, 0));
 
     cout << "Array: \n";
     for (auto& i: t) {
