@@ -35,12 +35,19 @@ void CommonConvolution(const vector<double>& sampleOne, vector<double>& sampleTw
 }
 
 int main() {
-    vector<double> x(10, 2.0);
+/*    vector<double> x(10, 2.0);
     vector<double> y(10, 2.0);
     vector<double> result;
     CommonConvolution(x, y, x.size() / 2, result);
     for (auto& i: result) {
         cout << i << "\n";
     }
-    return 0;
+    return 0;*/
+/*    vector<int> test {8, 9, 9, 1, 0};
+    vector<int> test2 {8, 9, 9, 1};
+    vector<int> result = sum(test, test2);
+    for (auto& i: result) {
+        cout << i;
+    }*/
+    do_multiply();
 }

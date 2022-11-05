@@ -17,13 +17,13 @@ vector<ComplexNumber> direct_dpf(vector<ComplexNumber> arr) {
             operations += 5;
             ComplexNumber temp = ComplexNumber(cos((2 * pi * i * n) / arr.size()),
                                                -1 * sin((2 * pi * i * n) / arr.size()));
-            cout << "\n\nTemp = ";
+/*            cout << "\n\nTemp = ";
             temp.print();
-            cout << "\n\nRes = ";
+            cout << "\n\nRes = ";*/
             result_arr[i] = result_arr[i] + (arr[n] * temp);
-            result_arr[i].print();
+           // result_arr[i].print();
         }
-        cout <<"\n\nNExt:\n\n";
+/*        cout <<"\n\nNExt:\n\n";*/
         result_arr[i].Round(3);
     }
     return result_arr;

@@ -4,6 +4,8 @@
 
 #include "multiply.h"
 
+int ops = 0;
+
 int ctoi(const char c) {
     if (c == '0') return 0;
     else if (c == '1') return 1;
@@ -62,7 +64,7 @@ vector<int> sum(vector<int> fn, vector<int> sn) {
             fn.insert(fn.begin(), 0);
         }
     }
-    int temp = 0;
+/*    int temp = 0;
     for (int i = n - 1; i >= 0; --i) {
         if (get_cnt_digit(fn[i] + sn[i] + temp) == 1) {
             result.push_back(fn[i] + sn[i] + temp);
@@ -75,7 +77,21 @@ vector<int> sum(vector<int> fn, vector<int> sn) {
     }
     if (sn.size() == fn.size() == 1 && sn[0] + fn[0] >= 10) {
         result.push_back(1);
+    }*/
+    int inc = 0, toPush = 0;
+    for (int i = n - 2; i > -1; --i) {
+        if (inc == 0) {
+            toPush = (fn[i] + sn[i]) % 10;
+            inc = (fn[i] + sn[i]) / 10;
+            result.push_back(toPush);
+        }
+        else {
+            toPush = (fn[i] + sn[i] + inc) % 10;
+            inc = (fn[i] + sn[i] + inc) / 10;
+            result.push_back(toPush);
+        }
     }
+    reverse(result.begin(), result.end());
     return result;
 }
 
@@ -83,13 +99,16 @@ vector<int> multiply_on_single_num(const vector<int> big_num, const int num, con
     vector<int> result;
     int incnt = 0;
     for (int i = big_num.size() - 1; i >= 0; --i) {
+        ++ops;
         int x = big_num[i] * num;
         int toPush;
         if (incnt == 0) {
+            ++ops;
             toPush = x % 10;
             incnt = x / 10;
         }
         else {
+            ++ops;
             toPush = (x + incnt) % 10;
             incnt = (x + incnt) / 10;
         }
@@ -111,12 +130,12 @@ vector<int> multiply(const vector<int> fnum, const vector<int> snum) {
     for (int i = snum.size() - 2, queue = 1; i >= 0; --i, ++queue) {
         vector<int> temp = multiply_on_single_num(fnum, snum[i], queue);
         result = sum(result, temp);
-        reverse(result.begin(), result.end());
     }
     return result;
 }
 
 void do_multiply() {
+    ops = 0;
     string fn, sn;
     vector<int> fnum, snum, result;
     vector<vector<int>> tempSums;
@@ -130,4 +149,5 @@ void do_multiply() {
     cout << "\nResult:";
     result = multiply(fnum, snum);
     for_each(result.begin(), result.end(), show);
+    cout << "\nOperations = " << ops << "\n";
 }
