@@ -16,7 +16,7 @@ private:
     int prev = 0;
     int cost = 0;
 public:
-    Edge (int next, int prev, int cost) {
+    Edge (int prev, int next, int cost) {
         this->next = next;
         this->prev = prev;
         this->cost = cost;
@@ -48,5 +48,6 @@ public:
 };
 
 void search_ford_bellman(vector<Edge> edges, int n, int m, int start_vertex);
+void do_fbel_test();
 
 #endif //UNTITLED_FORD_BELLMAN_H

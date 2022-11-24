@@ -6,6 +6,7 @@
 
 int BACKPACK_CAPACITY = 10;
 
+// first - weight, second - cost
 vector<pair<int, int>> loot = { {1, 1}, {2, 4}, {3, 6}, {4, 8} };
 vector<int> result_loot(BACKPACK_CAPACITY + 1, 0);
 

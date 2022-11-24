@@ -6,7 +6,8 @@
 #include "convolution/common_convolution.h"
 #include "convolution/convolution_dpf.h"
 #include "backpack/backpack_problem.h"
+#include "searches/ford_bellman.h"
 
 int main() {
-    do_backpack_test();
+    do_fbel_test();
 }
