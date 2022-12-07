@@ -37,10 +37,6 @@ void print_result(ostream& os, long_value x) {
     os << "\n";
 }
 
-// Sum long nums
-// Num with bigger length - first arg
-// Num with lower length - second arg
-// Returning non-normalized num
 long_value sum(long_value a, long_value b) {
     long_value s;
     s.length = a.length + 1;
@@ -53,8 +49,6 @@ long_value sum(long_value a, long_value b) {
     return s;
 }
 
-// Sub second num from first num
-// Changing first num and returning link to it
 long_value& sub(long_value& a, long_value& b) {
     for (size_length i = 0; i < b.length; ++i) {
         a.values[i] -= b.values[i];
