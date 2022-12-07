@@ -7,7 +7,9 @@
 #include "convolution/convolution_dpf.h"
 #include "backpack/backpack_problem.h"
 #include "searches/ford_bellman.h"
+#include "searches/dijkstra.h"
+#include "multiply/karatsuba_multiply.h"
 
 int main() {
-    do_fbel_test();
+    do_karatsuba_multiply_test();
 }
