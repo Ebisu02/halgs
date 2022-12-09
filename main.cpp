@@ -8,8 +8,11 @@
 #include "searches/dijkstra.h"
 #include "multiply/karatsuba_multiply.h"
 #include "multiply/strassen_fast_matrix_multiply.h"
+#include "searches/kraskal_ostov.h"
 
 int main() {
+    //do_dikstra_test();
     //do_karatsuba_multiply_test();
-    fast_matrix_multiply::do_multiply_stresson_test();
+    //fast_matrix_multiply::do_multiply_stresson_test();
+    min_ostov_find::do_kraskal_test();
 }
