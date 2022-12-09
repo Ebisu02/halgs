@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 namespace min_ostov_find {
     typedef vector<pair<int, pair<int, int>>> graph;
 
